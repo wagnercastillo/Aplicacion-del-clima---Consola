@@ -13,7 +13,7 @@ class Busqueda {
     get paramsMapbox() {
         return {
             'access_token': process.env.MAPBOX_KEY,
-            'limit': 5,
+            'limit': 10,
             'languaje': 'es'
         }
     }
@@ -28,10 +28,18 @@ class Busqueda {
 
             })
             const respuesta = await intance.get();
-            console.log(respuesta.data);
 
-        } catch {
+            return respuesta.data.features.map(lugar =>({
+                id: lugar.id,
+                nombre: lugar.place_name,
+                longitud: lugar.center[0],
+                latitud: lugar.center[1]
+
+            }))
+
+        } catch (error) {
             console.log('Ups!')
+            return []
         }
 
     }
