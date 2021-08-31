@@ -1,0 +1,17 @@
+{
+  "name": "Clima-App",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^8.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
