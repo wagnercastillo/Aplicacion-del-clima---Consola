@@ -1,4 +1,4 @@
-const { inquirerMenu, pausa } = require('./helpers/inquirer');
+const { inquirerMenu, pausa, leerInput } = require('./helpers/inquirer');
 const Busquedas = require('./models/busqueda');
 
 let opcion;
@@ -16,6 +16,10 @@ const main = async () => {
                 // Seleccionar los mensajes
                 // Clima
                 // Mostrar los resultados
+
+                const ciudad = await leerInput('Ciudad:');
+                busqueda.ciudad(ciudad);
+
                 console.log('\nInformación de la ciudad\n'.green);
                 console.log('Ciudad:',);
                 console.log('Lat:',);
@@ -24,7 +28,6 @@ const main = async () => {
                 console.log('Mínima:',);
                 console.log('Maxima:',);
 
-                busqueda.ciudad();
                 break;
             case 2:
                 console.log("2");
