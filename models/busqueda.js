@@ -14,9 +14,15 @@ class Busqueda {
     }
 
     get historialCapitalizado() {
-        return this.historial;
+        return this.historial.map(lugar => {
+
+            let palabras = lugar.split(' ');
+            palabras = palabras.map( p => p[0].toUpperCase() + p.substring(1) );
+
+            return palabras.join(' ');
+        })
     }
-    
+
     get paramsMapbox() {
         return {
             'access_token': process.env.MAPBOX_KEY,
@@ -112,17 +118,13 @@ class Busqueda {
     readData() {
 
         //Debe de existeir 
-        //  
         if (!fs.existsSync(this.dbPath)) {
             return null;
         }
 
         const info = fs.readFileSync(this.dbPath, { encoding: 'utf-8' })
         const data = JSON.parse(info);
-        this.historial = data;
-
-
-
+        this.historial = data.historial;
 
     }
 }

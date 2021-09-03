@@ -49,7 +49,7 @@ const main = async () => {
 
                 break;
             case 0:
-                console.log("0. Gracias!");
+                console.log("Hasta luego!");
                 break;
         }
         await pausa();
