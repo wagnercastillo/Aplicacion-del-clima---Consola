@@ -1,15 +1,22 @@
+const fs = require('fs');
+
 require('dotenv').config();
 const axios = require('axios');
 
 
+
 class Busqueda {
     historial = [];
+    dbPath = './database/data.json'
 
     constructor() {
-
-
+        this.readData();
     }
 
+    get historialCapitalizado() {
+        return this.historial;
+    }
+    
     get paramsMapbox() {
         return {
             'access_token': process.env.MAPBOX_KEY,
@@ -64,7 +71,7 @@ class Busqueda {
             const respuesta = await intance.get();
 
             const { main, weather } = respuesta.data;
-            
+
 
             return {
 
@@ -80,6 +87,42 @@ class Busqueda {
             console.log('Clima Lugar Ups')
             return []
         }
+
+    }
+
+    agregarHistorial(lugar = '') {
+        if (this.historial.includes(lugar.toLocaleLowerCase())) {
+            return;
+        }
+        this.historial.unshift(lugar.toLocaleLowerCase());
+        this.guardarData();
+
+    }
+
+    guardarData() {
+
+        const payload = {
+            historial: this.historial
+        }
+
+        fs.writeFileSync(this.dbPath, JSON.stringify(payload))
+
+    }
+
+    readData() {
+
+        //Debe de existeir 
+        //  
+        if (!fs.existsSync(this.dbPath)) {
+            return null;
+        }
+
+        const info = fs.readFileSync(this.dbPath, { encoding: 'utf-8' })
+        const data = JSON.parse(info);
+        this.historial = data;
+
+
+
 
     }
 }

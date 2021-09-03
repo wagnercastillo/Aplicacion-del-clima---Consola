@@ -6,6 +6,7 @@ let opcion;
 const main = async () => {
 
     const busqueda = new Busquedas();
+    
 
     do {
         opcion = await inquirerMenu();
@@ -19,11 +20,15 @@ const main = async () => {
 
                 const termino = await leerInput('Ciudad:');
                 const ciudades = await busqueda.ciudad(termino);
-                const id = await mostrarListadoCiudades(ciudades);            
+                const id = await mostrarListadoCiudades(ciudades);
+
+                if (id === '0') continue;
+
                 const lugarSel = ciudades.find(lugar => lugar.id === id);
-    
+
+                busqueda.agregarHistorial(lugarSel.nombre);
                 // Clima
-                const clima= await  busqueda.climaLugar(lugarSel.longitud, lugarSel.latitud);
+                const clima = await busqueda.climaLugar(lugarSel.longitud, lugarSel.latitud);
 
                 console.log('\nInformación de la ciudad\n'.green);
                 console.log('Ciudad:', lugarSel.nombre);
@@ -32,11 +37,16 @@ const main = async () => {
                 console.log('Temperatura:', clima.temperatura);
                 console.log('Mínima:', clima.min);
                 console.log('Maxima:', clima.max);
-                console.log('Descripcion:', clima.descripcion+'\n');
+                console.log('Descripcion:', clima.descripcion + '\n');
 
                 break;
             case 2:
-                console.log("2");
+          
+                busqueda.historialCapitalizado.forEach((lugar, i) => {
+                    const idx = `${i + 1}.`.green;
+                    console.log(`${idx} ${lugar}`);
+                });
+
                 break;
             case 0:
                 console.log("0. Gracias!");
